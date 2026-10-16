@@ -1,0 +1,81 @@
+/* ---------- Cabecera y pie ---------- */
+.cabecera { padding: 1rem 0; }
+.cabecera__interior {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.pie { padding: 2rem 0; text-align: center; color: var(--texto-suave); font-size: 0.9rem; }
+
+/* ---------- Bienvenida ---------- */
+.heroe {
+  display: grid;
+  gap: 1.5rem;
+  align-items: center;
+  padding: 1.5rem 0 3rem;
+  text-align: center;
+}
+.heroe h1 { font-size: clamp(2rem, 6vw, 3.4rem); }
+.heroe__texto {
+  max-width: 34rem;
+  margin-inline: auto;
+  color: var(--texto-suave);
+  font-size: 1.1rem;
+}
+.heroe__mascota-caja { order: -1; }
+.heroe__mascota {
+  width: min(55vw, 220px);
+  margin-inline: auto;
+  animation: flotar 4s ease-in-out infinite;
+}
+.nota { margin: 1rem 0 0; font-size: 0.9rem; color: var(--texto-suave); }
+
+.rejilla-3 {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  padding-bottom: 2rem;
+}
+.rejilla-3 h3 { font-size: 1.15rem; margin-bottom: 0.3rem; }
+.rejilla-3 p { margin: 0; color: var(--texto-suave); }
+
+@media (min-width: 800px) {
+  .heroe { grid-template-columns: 1.1fr 0.9fr; gap: 3rem; text-align: left; padding-top: 3rem; }
+  .heroe__texto { margin-inline: 0; }
+  .heroe__mascota-caja { order: 0; }
+  .heroe__mascota { width: min(100%, 320px); }
+}
+
+/* ---------- Inicio de sesión ---------- */
+.centro {
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding: 1.5rem;
+}
+.acceso { width: min(100%, 440px); }
+.volver {
+  display: inline-block;
+  margin-bottom: 1rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+.volver:hover { text-decoration: underline; }
+.acceso__tarjeta { padding: 2rem 1.5rem; }
+.acceso__mascota { width: 96px; margin: 0 auto 0.5rem; }
+.acceso__tarjeta h1 { text-align: center; font-size: 1.8rem; }
+.acceso__subtitulo { text-align: center; color: var(--texto-suave); margin-bottom: 1.5rem; }
+
+/* ---------- Panel provisional ---------- */
+.panel-provisional { padding: 2rem 0 3rem; }
+.panel-provisional__tarjeta {
+  display: grid;
+  justify-items: center;
+  gap: 0.5rem;
+  max-width: 560px;
+  margin-inline: auto;
+  text-align: center;
+}
+.panel-provisional__mascota { width: 120px; }

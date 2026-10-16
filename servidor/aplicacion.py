@@ -5,6 +5,16 @@ from servidor.errores import registrar_errores
 from servidor.extensiones import bd, migrar, limitador
 from servidor.seguridad import verificar_csrf
 
+POLITICA_CONTENIDO = (
+    "default-src 'self'; "
+    "img-src 'self' data:; "
+    "style-src 'self'; "
+    "script-src 'self'; "
+    "base-uri 'self'; "
+    "form-action 'self'; "
+    "frame-ancestors 'none'"
+)
+
 
 def crear_app(configuracion=Configuracion):
     """Fábrica de la aplicación: crea y configura Flask."""
@@ -30,14 +40,17 @@ def crear_app(configuracion=Configuracion):
         respuesta.headers["X-Content-Type-Options"] = "nosniff"
         respuesta.headers["X-Frame-Options"] = "DENY"
         respuesta.headers["Referrer-Policy"] = "same-origin"
+        respuesta.headers["Content-Security-Policy"] = POLITICA_CONTENIDO
         return respuesta
 
     from servidor.rutas.salud import salud_bp
     from servidor.rutas.autenticacion import autenticacion_bp
     from servidor.rutas.admin import admin_bp
+    from servidor.rutas.interfaz import interfaz_bp
     app.register_blueprint(salud_bp)
     app.register_blueprint(autenticacion_bp)
     app.register_blueprint(admin_bp)
+    app.register_blueprint(interfaz_bp)
 
     from servidor.comandos.usuarios import crear_usuario
     app.cli.add_command(crear_usuario)
