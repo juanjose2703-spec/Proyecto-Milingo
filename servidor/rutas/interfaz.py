@@ -52,3 +52,8 @@ def recursos(nombre):
 @interfaz_bp.get("/recorrido")
 def recorrido():
     return _pagina("recorrido.html")
+
+
+@interfaz_bp.get("/leccion/<int:leccion_id>")
+def leccion(leccion_id):
+    return _pagina("leccion.html")

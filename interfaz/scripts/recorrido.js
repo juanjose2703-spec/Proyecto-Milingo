@@ -42,14 +42,18 @@
     chip.textContent = ETIQUETAS[estado] || estado;
     chip.className = 'detalle__estado detalle__estado--' + estado;
 
-    const accion = $('detalle-accion');
+        const accion = $('detalle-accion');
     if (estado === 'bloqueada') {
       accion.hidden = true;
       $('detalle-nota').textContent = 'Completa la lección anterior para abrir esta.';
     } else {
       accion.hidden = false;
-      accion.textContent = 'Próximamente';
-      $('detalle-nota').textContent = 'Las lecciones interactivas llegan en la siguiente etapa.';
+      accion.href = '/leccion/' + leccion.id;
+      accion.textContent = estado === 'completada' ? 'Repetir lección'
+        : estado === 'en_progreso' ? 'Continuar' : 'Empezar';
+      $('detalle-nota').textContent = estado === 'completada'
+        ? 'Puedes repetirla para practicar; ganarás la mitad de XP.'
+        : '';
     }
 
     detalle.showModal();

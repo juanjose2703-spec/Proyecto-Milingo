@@ -50,11 +50,12 @@
     pintarBarra($('barra-nivel'), (100 * stats.xp_en_nivel) / stats.xp_por_nivel);
   }
 
-  function pintarProgreso(progreso) {
+    function pintarProgreso(progreso) {
     $('curso-texto').textContent =
       progreso.lecciones_completadas + ' de ' + plural(progreso.total_lecciones, 'lección', 'lecciones');
     pintarBarra($('barra-curso'), progreso.porcentaje);
 
+    const boton = $('leccion-boton');
     const s = progreso.siguiente;
     if (s) {
       $('leccion-etiqueta').textContent =
@@ -62,16 +63,21 @@
       $('leccion-unidad').textContent = s.unidad_titulo;
       $('leccion-titulo').textContent = s.titulo;
       $('leccion-descripcion').textContent = s.descripcion || '';
-    } else if (progreso.total_lecciones === 0) {
-      $('leccion-etiqueta').textContent = 'Sin lecciones';
-      $('leccion-unidad').textContent = '';
-      $('leccion-titulo').textContent = 'Aún no hay lecciones publicadas';
-      $('leccion-descripcion').textContent = '';
+      boton.href = '/leccion/' + s.id;
+      boton.textContent = s.estado === 'en_progreso' ? 'Continuar' : 'Empezar';
     } else {
-      $('leccion-etiqueta').textContent = '¡Bien hecho!';
+      boton.href = '/recorrido';
+      boton.textContent = 'Ver mi camino';
       $('leccion-unidad').textContent = '';
-      $('leccion-titulo').textContent = 'Completaste todo el recorrido disponible';
-      $('leccion-descripcion').textContent = 'Pronto habrá más lecciones.';
+      $('leccion-descripcion').textContent = '';
+      if (progreso.total_lecciones === 0) {
+        $('leccion-etiqueta').textContent = 'Sin lecciones';
+        $('leccion-titulo').textContent = 'Aún no hay lecciones publicadas';
+      } else {
+        $('leccion-etiqueta').textContent = '¡Bien hecho!';
+        $('leccion-titulo').textContent = 'Completaste todo el recorrido disponible';
+        $('leccion-descripcion').textContent = 'Pronto habrá más lecciones.';
+      }
     }
   }
 

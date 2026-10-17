@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Mili, triste">
+  <ellipse cx="100" cy="184" rx="52" ry="8" fill="#303B35" opacity="0.12"/>
+  <ellipse cx="38" cy="126" rx="10" ry="16" fill="#46B862" transform="rotate(10 38 126)"/>
+  <ellipse cx="162" cy="126" rx="10" ry="16" fill="#46B862" transform="rotate(-10 162 126)"/>
+  <ellipse cx="74" cy="172" rx="17" ry="9" fill="#3FA85A"/>
+  <ellipse cx="126" cy="172" rx="17" ry="9" fill="#3FA85A"/>
+  <ellipse cx="100" cy="112" rx="64" ry="62" fill="#58CC72"/>
+  <ellipse cx="100" cy="148" rx="34" ry="20" fill="#8EE3A1"/>
+  <path d="M100 52 C100 46 98 42 94 38" stroke="#3FA85A" stroke-width="5" fill="none" stroke-linecap="round"/>
+  <path d="M96 42 C84 34 68 40 66 52 C78 58 94 54 96 42 Z" fill="#7ED996"/>
+  <path d="M112 50 C102 44 100 36 106 34 C109 33 112 35 112 37 C112 35 115 33 118 34 C124 36 122 44 112 50 Z" fill="#FFB6C8"/>
+  <path d="M68 82 L92 74" stroke="#303B35" stroke-width="4" stroke-linecap="round"/>
+  <path d="M132 82 L108 74" stroke="#303B35" stroke-width="4" stroke-linecap="round"/>
+  <ellipse cx="80" cy="94" rx="12" ry="14" fill="#FFFFFF"/>
+  <ellipse cx="120" cy="94" rx="12" ry="14" fill="#FFFFFF"/>
+  <circle cx="81" cy="99" r="7" fill="#303B35"/>
+  <circle cx="119" cy="99" r="7" fill="#303B35"/>
+  <circle cx="84" cy="95" r="2.6" fill="#FFFFFF"/>
+  <circle cx="122" cy="95" r="2.6" fill="#FFFFFF"/>
+  <path d="M78 110 C74 118 74 122 78 124 C82 122 82 118 78 110 Z" fill="#9AD8F5"/>
+  <ellipse cx="60" cy="116" rx="9" ry="6" fill="#FFB6C8"/>
+  <ellipse cx="140" cy="116" rx="9" ry="6" fill="#FFB6C8"/>
+  <ellipse cx="100" cy="118" rx="5" ry="3" fill="#FFB6C8"/>
+  <path d="M88 134 Q100 122 112 134" stroke="#303B35" stroke-width="5" fill="none" stroke-linecap="round"/>
+</svg>

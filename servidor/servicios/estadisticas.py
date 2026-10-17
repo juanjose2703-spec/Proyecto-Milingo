@@ -54,3 +54,21 @@ def a_dict(est):
         "mejor_racha": est.mejor_racha,
         "practico_hoy": est.ultima_fecha_actividad == hoy_local(),
     }
+
+
+def obtener_bloqueada(usuario_id):
+    """Como obtener(), pero deja la fila bloqueada hasta el siguiente commit.
+
+    Así dos peticiones del mismo usuario (doble clic, dos pestañas) se ejecutan una
+    tras otra. El commit previo cierra la transacción: el bloqueo debe ser lo primero
+    que hace la nueva, para que las lecturas siguientes vean lo que otra petición
+    acaba de guardar (MySQL toma la "foto" de los datos en la primera lectura normal).
+    """
+    est_id = obtener(usuario_id).id
+    bd.session.commit()
+    return bd.session.execute(
+        bd.select(EstadisticaUsuario)
+        .where(EstadisticaUsuario.id == est_id)
+        .with_for_update()
+        .execution_options(populate_existing=True)
+    ).scalar_one()

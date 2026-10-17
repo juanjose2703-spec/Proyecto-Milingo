@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#FFF6E8">
+  <title>Lección · Milingo</title>
+  <link rel="icon" type="image/svg+xml" href="/recursos/mascota-feliz.svg">
+  <link rel="stylesheet" href="/estilos/base.css">
+  <link rel="stylesheet" href="/estilos/componentes.css">
+  <link rel="stylesheet" href="/estilos/leccion.css">
+  <script src="/scripts/api.js" defer></script>
+  <script src="/scripts/lecciones.js" defer></script>
+</head>
+<body class="pagina-leccion">
+  <a class="saltar" href="#contenido">Saltar al contenido</a>
+
+  <header class="cab-leccion" id="cab-leccion" hidden>
+    <button type="button" class="cerrar" id="boton-salir" aria-label="Salir de la lección">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+    <div class="barra--leccion" id="barra-leccion" role="progressbar" aria-label="Progreso de la lección"
+         aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+      <div class="barra__relleno"></div>
+    </div>
+    <div class="vidas-leccion" id="vidas-leccion" role="img" aria-label="Corazones">
+      <span class="corazon-icono" aria-hidden="true"></span>
+      <span id="corazones-num" aria-hidden="true">5</span>
+    </div>
+  </header>
+
+  <main class="leccion" id="contenido">
+    <section id="pantalla-cargando" class="cargando">Preparando tu lección…</section>
+
+    <section id="pantalla-ejercicio" hidden>
+      <p class="nota-reanudado" id="nota-reanudado" hidden>Retomamos justo donde lo dejaste.</p>
+      <div id="tarjeta-pregunta" class="entrada-suave">
+        <h1 class="pregunta__instrucciones" id="instrucciones" tabindex="-1"></h1>
+        <p class="enunciado" id="enunciado"></p>
+        <div id="ejercicio"></div>
+      </div>
+    </section>
+
+    <section id="pantalla-resultados" class="resultados tarjeta" hidden aria-labelledby="resultados-titulo">
+      <img class="resultados__mascota" src="/recursos/mascota-feliz.svg" alt="" width="140" height="140">
+      <h1 id="resultados-titulo" tabindex="-1">¡Lección completada!</h1>
+      <p class="resultados__mensaje" id="resultados-mensaje"></p>
+      <dl class="cifras">
+        <div class="cifra"><dt>Aciertos</dt><dd id="res-aciertos">0</dd></div>
+        <div class="cifra"><dt>Errores</dt><dd id="res-errores">0</dd></div>
+        <div class="cifra"><dt>Precisión</dt><dd id="res-precision">0 %</dd></div>
+        <div class="cifra cifra--xp"><dt>XP ganado</dt><dd id="res-xp">+0</dd></div>
+      </dl>
+      <p class="resultados__extra" id="res-extra" hidden></p>
+      <ul class="logros-nuevos" id="res-logros"></ul>
+      <div class="acciones">
+        <a class="boton boton--grande" id="res-continuar" href="/recorrido" hidden>Continuar</a>
+        <a class="boton boton--secundario" href="/recorrido">Volver al mapa</a>
+      </div>
+    </section>
+
+    <section id="pantalla-sincorazones" class="resultados tarjeta" hidden aria-labelledby="sin-titulo">
+      <img class="resultados__mascota" src="/recursos/mascota-triste.svg" alt="" width="140" height="140">
+      <h1 id="sin-titulo" tabindex="-1">Te quedaste sin corazones</h1>
+      <p class="resultados__mensaje">No pasa nada: tus corazones vuelven mañana. Mientras tanto puedes repasar y volver con más ganas.</p>
+      <div class="acciones">
+        <a class="boton boton--grande" href="/recorrido">Volver al mapa</a>
+        <a class="boton boton--secundario" href="/panel">Ir a mi panel</a>
+      </div>
+    </section>
+
+    <section id="pantalla-error" class="resultados tarjeta" hidden aria-labelledby="error-titulo">
+      <img class="resultados__mascota" src="/recursos/mascota-triste.svg" alt="" width="140" height="140">
+      <h1 id="error-titulo" tabindex="-1">No pudimos abrir la lección</h1>
+      <p class="resultados__mensaje" id="error-texto"></p>
+      <div class="acciones">
+        <button type="button" class="boton boton--grande" id="error-reintentar" hidden>Reintentar</button>
+        <a class="boton boton--secundario" href="/recorrido">Volver al mapa</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="pie-leccion" id="pie-leccion" hidden>
+    <div class="pie-leccion__interior">
+      <div class="retro" id="retro" role="status">
+        <div id="retro-contenido" hidden>
+          <p class="retro__titulo" id="retro-titulo"></p>
+          <p class="retro__detalle" id="retro-correcta" hidden></p>
+          <p class="retro__detalle" id="retro-explicacion"></p>
+        </div>
+        <p class="retro__error" id="retro-error" hidden></p>
+      </div>
+      <button type="button" class="boton boton--grande" id="boton-principal" disabled>
+        <span class="giro" aria-hidden="true"></span>
+        <span id="boton-principal-texto">Comprobar</span>
+      </button>
+    </div>
+  </footer>
+
+  <dialog class="dialogo" id="dialogo-salir" aria-labelledby="dialogo-titulo">
+    <div class="dialogo__cuerpo">
+      <h2 id="dialogo-titulo">¿Salir de la lección?</h2>
+      <p>Perderás tu avance en esta lección y no ganarás XP. Los corazones que hayas perdido no se recuperan.</p>
+      <div class="dialogo__acciones">
+        <button type="button" class="boton boton--bloque" id="dialogo-seguir">Seguir aprendiendo</button>
+        <button type="button" class="boton boton--secundario boton--bloque" id="dialogo-confirmar">Salir de la lección</button>
+      </div>
+    </div>
+  </dialog>
+</body>
+</html>

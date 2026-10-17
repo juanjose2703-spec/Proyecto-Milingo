@@ -49,12 +49,14 @@ def crear_app(configuracion=Configuracion):
     from servidor.rutas.interfaz import interfaz_bp
     from servidor.rutas.progreso import progreso_bp
     from servidor.rutas.contenido import contenido_bp
+    from servidor.rutas.intentos import intentos_bp
     app.register_blueprint(salud_bp)
     app.register_blueprint(autenticacion_bp)
     app.register_blueprint(admin_bp)
     app.register_blueprint(progreso_bp)
     app.register_blueprint(contenido_bp)
     app.register_blueprint(interfaz_bp)
+    app.register_blueprint(intentos_bp)
 
     from servidor.comandos.usuarios import crear_usuario
     from servidor.comandos.contenido import cargar_contenido
