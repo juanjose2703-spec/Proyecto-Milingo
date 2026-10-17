@@ -17,13 +17,13 @@
   <a class="saltar" href="#contenido">Saltar al contenido</a>
 
   <header class="cabecera">
-    <div class="contenedor cabecera__interior">
-      <a class="logo" href="/panel" aria-label="Milingo, mi panel">
-        <img class="logo__icono" src="/recursos/mascota-feliz.svg" alt="" width="40" height="40">
-        <span>Milingo</span>
-      </a>
-      <button type="button" class="boton boton--secundario boton--chico" id="boton-salir">Salir</button>
-    </div>
+      <div class="cabecera__acciones">
+        <nav class="nav" aria-label="Principal">
+          <a href="/panel" aria-current="page">Mi panel</a>
+          <a href="/recorrido">Mi camino</a>
+        </nav>
+        <button type="button" class="boton boton--secundario boton--chico" id="boton-salir">Salir</button>
+      </div>
   </header>
 
   <main class="contenedor panel" id="contenido">
@@ -74,8 +74,8 @@
           <p class="leccion__unidad" id="leccion-unidad"></p>
           <p class="leccion__titulo" id="leccion-titulo">…</p>
           <p class="leccion__descripcion" id="leccion-descripcion"></p>
-          <button type="button" class="boton boton--grande" id="leccion-boton" disabled>Próximamente</button>
-          <p class="leccion__nota">Las lecciones interactivas llegan en la siguiente etapa.</p>
+          <a class="boton boton--grande" href="/recorrido" id="leccion-boton">Ver mi camino</a>
+          <p class="leccion__nota">Desde el mapa puedes ver todas tus lecciones y cuál sigue.</p>
         </section>
 
         <section class="tarjeta" aria-labelledby="titulo-avance">

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#FFF6E8">
+  <title>Mi camino · Milingo</title>
+  <link rel="icon" type="image/svg+xml" href="/recursos/mascota-feliz.svg">
+  <link rel="stylesheet" href="/estilos/base.css">
+  <link rel="stylesheet" href="/estilos/componentes.css">
+  <link rel="stylesheet" href="/estilos/paginas.css">
+  <link rel="stylesheet" href="/estilos/recorrido.css">
+  <script src="/scripts/api.js" defer></script>
+  <script src="/scripts/recorrido.js" defer></script>
+</head>
+<body>
+  <a class="saltar" href="#contenido">Saltar al contenido</a>
+
+  <header class="cabecera">
+    <div class="contenedor cabecera__interior">
+      <a class="logo" href="/panel" aria-label="Milingo, mi panel">
+        <img class="logo__icono" src="/recursos/mascota-feliz.svg" alt="" width="40" height="40">
+        <span>Milingo</span>
+      </a>
+      <div class="cabecera__acciones">
+        <nav class="nav" aria-label="Principal">
+          <a href="/panel">Mi panel</a>
+          <a href="/recorrido" aria-current="page">Mi camino</a>
+        </nav>
+        <button type="button" class="boton boton--secundario boton--chico" id="boton-salir">Salir</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="contenedor recorrido" id="contenido">
+    <section class="recorrido__intro entrada-suave">
+      <h1 id="curso-titulo">Mi camino</h1>
+      <p id="curso-resumen">Cargando tu recorrido…</p>
+    </section>
+
+    <div id="aviso-error" class="aviso aviso--error aviso--accion" role="alert" hidden>
+      <span id="aviso-error-texto"></span>
+      <button type="button" class="boton boton--secundario boton--chico" id="boton-reintentar">Reintentar</button>
+    </div>
+
+    <div id="unidades"></div>
+  </main>
+
+  <dialog class="detalle" id="detalle" aria-labelledby="detalle-titulo">
+    <div class="detalle__cuerpo">
+      <p class="detalle__unidad" id="detalle-unidad"></p>
+      <h2 class="detalle__titulo" id="detalle-titulo"></h2>
+      <p class="detalle__estado" id="detalle-estado"></p>
+      <p class="detalle__descripcion" id="detalle-descripcion"></p>
+      <p class="detalle__meta" id="detalle-meta"></p>
+      <p class="detalle__nota" id="detalle-nota"></p>
+      <div class="detalle__acciones">
+        <button type="button" class="boton boton--grande boton--bloque" id="detalle-accion" disabled>Próximamente</button>
+        <button type="button" class="boton boton--secundario boton--bloque" id="detalle-cerrar">Cerrar</button>
+      </div>
+    </div>
+  </dialog>
+</body>
+</html>

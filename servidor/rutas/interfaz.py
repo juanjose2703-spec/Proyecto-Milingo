@@ -47,3 +47,8 @@ def scripts(nombre):
 @interfaz_bp.get("/recursos/<path:nombre>")
 def recursos(nombre):
     return send_from_directory(RAIZ_INTERFAZ / "recursos", nombre)
+
+
+@interfaz_bp.get("/recorrido")
+def recorrido():
+    return _pagina("recorrido.html")

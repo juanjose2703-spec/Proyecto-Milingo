@@ -79,3 +79,22 @@
   text-align: center;
 }
 .panel-provisional__mascota { width: 120px; }
+
+
+/* ---------- Navegación de la cabecera ---------- */
+.cabecera__acciones { display: flex; align-items: center; gap: 0.5rem; }
+.nav { display: flex; gap: 0.25rem; }
+.nav a {
+  padding: 0.5rem 0.8rem;
+  border-radius: 999px;
+  font-weight: 800;
+  text-decoration: none;
+  color: var(--texto);
+}
+.nav a:hover { background: var(--crema-oscuro); }
+.nav a[aria-current="page"] { background: var(--verde-suave); color: var(--verde-texto); }
+
+@media (max-width: 480px) {
+  .cabecera .logo span { display: none; }
+  .nav a { padding: 0.5rem 0.6rem; }
+}
