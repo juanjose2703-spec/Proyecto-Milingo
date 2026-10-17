@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Mili, la mascota de Milingo">
+  <ellipse cx="100" cy="184" rx="52" ry="8" fill="#303B35" opacity="0.12"/>
+  <ellipse cx="38" cy="122" rx="10" ry="16" fill="#46B862" transform="rotate(22 38 122)"/>
+  <ellipse cx="162" cy="122" rx="10" ry="16" fill="#46B862" transform="rotate(-22 162 122)"/>
+  <ellipse cx="74" cy="172" rx="17" ry="9" fill="#3FA85A"/>
+  <ellipse cx="126" cy="172" rx="17" ry="9" fill="#3FA85A"/>
+  <ellipse cx="100" cy="112" rx="64" ry="62" fill="#58CC72"/>
+  <ellipse cx="100" cy="148" rx="34" ry="20" fill="#8EE3A1"/>
+  <path d="M100 52 C100 44 102 38 106 32" stroke="#3FA85A" stroke-width="5" fill="none" stroke-linecap="round"/>
+  <path d="M104 36 C90 22 68 26 64 38 C78 48 98 48 104 36 Z" fill="#7ED996"/>
+  <path d="M102 38 C92 36 80 34 70 36" stroke="#58CC72" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <path d="M122 44 C110 36 108 26 115 23 C119 21 122 24 122 26 C122 24 125 21 129 23 C136 26 134 36 122 44 Z" fill="#FFB6C8"/>
+  <ellipse cx="80" cy="92" rx="12" ry="14" fill="#FFFFFF"/>
+  <ellipse cx="120" cy="92" rx="12" ry="14" fill="#FFFFFF"/>
+  <circle cx="81" cy="95" r="7" fill="#303B35"/>
+  <circle cx="119" cy="95" r="7" fill="#303B35"/>
+  <circle cx="84" cy="91" r="2.6" fill="#FFFFFF"/>
+  <circle cx="122" cy="91" r="2.6" fill="#FFFFFF"/>
+  <ellipse cx="60" cy="112" rx="9" ry="6" fill="#FFB6C8"/>
+  <ellipse cx="140" cy="112" rx="9" ry="6" fill="#FFB6C8"/>
+  <path d="M88 110 Q100 132 112 110 Z" fill="#303B35"/>
+  <ellipse cx="100" cy="118" rx="5" ry="3" fill="#FFB6C8"/>
+</svg>

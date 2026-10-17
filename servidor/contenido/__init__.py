@@ -1,0 +1,1 @@
+# Datos del contenido educativo (se cargan con el comando cargar-contenido).

@@ -27,3 +27,11 @@ ESTADO_EN_CURSO = "en_curso"
 ESTADO_COMPLETADO = "completado"
 ESTADO_ABANDONADO = "abandonado"
 ESTADO_SIN_CORAZONES = "sin_corazones"
+
+
+XP_POR_NIVEL = 100
+
+LECCION_BLOQUEADA = "bloqueada"
+LECCION_DISPONIBLE = "disponible"
+LECCION_EN_PROGRESO = "en_progreso"
+LECCION_COMPLETADA = "completada"

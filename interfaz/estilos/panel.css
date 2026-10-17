@@ -1,0 +1,128 @@
+.panel { display: grid; gap: 1.25rem; padding: 0.5rem 0 3rem; }
+
+.saludo h1 { font-size: clamp(1.7rem, 5vw, 2.4rem); margin-bottom: 0.2rem; }
+.saludo p { margin: 0; color: var(--texto-suave); }
+
+.titulo-seccion { font-size: 1.15rem; margin-bottom: 1rem; }
+.suave { color: var(--texto-suave); }
+
+/* ---------- Números principales ---------- */
+.datos {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+}
+.dato { display: flex; align-items: center; gap: 0.9rem; padding: 1rem 1.1rem; }
+.dato__icono {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background: var(--verde-suave);
+  color: var(--verde-texto);
+}
+.dato__icono--rosa { background: var(--rosa-suave); color: var(--rosa-texto); }
+.dato__valor { font-size: 1.6rem; font-weight: 900; line-height: 1.1; }
+.dato__etiqueta { font-size: 0.85rem; font-weight: 700; color: var(--texto-suave); }
+
+/* ---------- Corazones ---------- */
+.vidas { display: flex; flex-wrap: wrap; gap: 0.15rem; min-height: 1.5rem; }
+.vida {
+  width: 22px;
+  height: 22px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23EE6A8B' d='M12 21s-8-5.2-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 10c0 5.8-8 11-8 11z'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+.vida--vacia {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23DDD8CC' d='M12 21s-8-5.2-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 10c0 5.8-8 11-8 11z'/%3E%3C/svg%3E");
+}
+
+/* ---------- Columnas ---------- */
+.columnas { display: grid; gap: 1.25rem; align-items: start; }
+.columna { display: grid; gap: 1.25rem; }
+@media (min-width: 860px) {
+  .columnas { grid-template-columns: 1.3fr 1fr; }
+}
+
+/* ---------- Lección recomendada ---------- */
+.leccion__etiqueta {
+  margin: 0 0 0.4rem;
+  font-size: 0.85rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--verde-texto);
+}
+.leccion__unidad { margin: 0; color: var(--texto-suave); font-weight: 700; }
+.leccion__titulo { font-size: 1.6rem; margin: 0.1rem 0 0.4rem; }
+.leccion__descripcion { color: var(--texto-suave); }
+.leccion__nota { margin: 0.8rem 0 0; font-size: 0.9rem; color: var(--texto-suave); }
+
+/* ---------- Barras de avance ---------- */
+.avance { margin-bottom: 1.25rem; }
+.avance:last-child { margin-bottom: 0; }
+.avance__fila {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.4rem;
+  font-weight: 700;
+}
+.barra { height: 14px; border-radius: 999px; background: var(--gris); overflow: hidden; }
+.barra__relleno {
+  width: 0;
+  height: 100%;
+  border-radius: 999px;
+  background: var(--verde);
+  transition: width 0.8s ease;
+}
+
+/* ---------- Semana ---------- */
+.semana {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.3rem;
+  margin: 0 0 1rem;
+  padding: 0;
+  list-style: none;
+  text-align: center;
+}
+.dia__nombre { font-size: 0.85rem; font-weight: 700; color: var(--texto-suave); text-transform: uppercase; }
+.dia__punto {
+  display: grid;
+  place-items: center;
+  width: 2.4rem;
+  height: 2.4rem;
+  margin: 0.3rem auto 0;
+  border-radius: 50%;
+  background: var(--gris);
+}
+.dia--activo .dia__punto { background: var(--verde); }
+.dia--activo .dia__punto::after {
+  content: "";
+  width: 0.8rem;
+  height: 0.45rem;
+  border-left: 3px solid var(--texto);
+  border-bottom: 3px solid var(--texto);
+  transform: rotate(-45deg) translate(1px, -1px);
+}
+.dia--hoy .dia__nombre { color: var(--texto); font-weight: 900; }
+.dia--hoy .dia__punto { box-shadow: 0 0 0 3px var(--blanco), 0 0 0 5px var(--texto); }
+.semana-resumen { margin: 0; color: var(--texto-suave); }
+
+/* ---------- Logros ---------- */
+.logros-lista { display: grid; gap: 0.8rem; margin: 0; padding: 0; list-style: none; }
+.logro { display: flex; align-items: center; gap: 0.8rem; }
+.logro__icono {
+  flex: none;
+  width: 2.8rem;
+  height: 2.8rem;
+  border-radius: 50%;
+  background: var(--rosa-suave) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%238A1F3D' d='M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z'/%3E%3C/svg%3E") center / 55% no-repeat;
+}
+.logro__nombre { display: block; font-weight: 800; }
+.logro__descripcion { display: block; font-size: 0.9rem; color: var(--texto-suave); }
+.vacio { margin: 0; color: var(--texto-suave); }
+
+.aviso--accion { align-items: center; justify-content: space-between; }

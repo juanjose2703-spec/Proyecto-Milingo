@@ -29,8 +29,8 @@ def panel():
 
 @interfaz_bp.get("/admin")
 def admin():
-    # Provisional: usa la misma página hasta construir el panel de administración.
-    return _pagina("panel.html")
+    # Provisional hasta construir el panel de administración.
+    return _pagina("admin.html")
 
 
 # send_from_directory impide salirse de la carpeta (../).

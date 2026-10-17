@@ -4,18 +4,21 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#FFF6E8">
-  <title>Panel · Milingo</title>
+  <title>Mi panel · Milingo</title>
   <link rel="icon" type="image/svg+xml" href="/recursos/mascota-feliz.svg">
   <link rel="stylesheet" href="/estilos/base.css">
   <link rel="stylesheet" href="/estilos/componentes.css">
   <link rel="stylesheet" href="/estilos/paginas.css">
+  <link rel="stylesheet" href="/estilos/panel.css">
   <script src="/scripts/api.js" defer></script>
   <script src="/scripts/progreso.js" defer></script>
 </head>
 <body>
+  <a class="saltar" href="#contenido">Saltar al contenido</a>
+
   <header class="cabecera">
     <div class="contenedor cabecera__interior">
-      <a class="logo" href="/panel" aria-label="Milingo, panel">
+      <a class="logo" href="/panel" aria-label="Milingo, mi panel">
         <img class="logo__icono" src="/recursos/mascota-feliz.svg" alt="" width="40" height="40">
         <span>Milingo</span>
       </a>
@@ -23,15 +26,97 @@
     </div>
   </header>
 
-  <main class="contenedor panel-provisional" id="contenido">
-    <section class="tarjeta panel-provisional__tarjeta entrada-suave">
-      <img class="panel-provisional__mascota" src="/recursos/mascota-feliz.svg" alt="" width="120" height="120">
-      <h1 id="saludo">Cargando…</h1>
-      <p id="detalle"></p>
-      <div class="aviso aviso--info">
-        <span>Pantalla provisional: el panel real, con XP, racha y corazones, llega en la siguiente etapa.</span>
-      </div>
+  <main class="contenedor panel" id="contenido">
+    <section class="saludo entrada-suave">
+      <h1 id="saludo">Hola</h1>
+      <p id="saludo-detalle">Cargando tu progreso…</p>
     </section>
+
+    <div id="aviso-error" class="aviso aviso--error aviso--accion" role="alert" hidden>
+      <span id="aviso-error-texto"></span>
+      <button type="button" class="boton boton--secundario boton--chico" id="boton-reintentar">Reintentar</button>
+    </div>
+
+    <section class="datos" aria-label="Tus números">
+      <article class="tarjeta dato">
+        <div class="dato__icono" aria-hidden="true">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></svg>
+        </div>
+        <div>
+          <div class="dato__valor" id="xp-valor">—</div>
+          <div class="dato__etiqueta">XP total</div>
+        </div>
+      </article>
+
+      <article class="tarjeta dato">
+        <div class="dato__icono dato__icono--rosa" aria-hidden="true">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c1 3.5 5 5.5 5 10a5 5 0 0 1-10 0c0-2 1-3.5 2-4.5.3 1.5 1 2.2 2 2.5C11 8 11 5.5 12 3z"/></svg>
+        </div>
+        <div>
+          <div class="dato__valor" id="racha-valor">—</div>
+          <div class="dato__etiqueta" id="racha-etiqueta">días de racha</div>
+        </div>
+      </article>
+
+      <article class="tarjeta dato">
+        <div>
+          <div class="vidas" id="vidas" role="img" aria-label="Corazones"></div>
+          <div class="dato__etiqueta" id="vidas-texto">Corazones</div>
+        </div>
+      </article>
+    </section>
+
+    <div class="columnas">
+      <div class="columna">
+        <section class="tarjeta" aria-labelledby="titulo-leccion">
+          <h2 id="titulo-leccion" class="solo-lectores">Lección recomendada</h2>
+          <p class="leccion__etiqueta" id="leccion-etiqueta">Tu próxima lección</p>
+          <p class="leccion__unidad" id="leccion-unidad"></p>
+          <p class="leccion__titulo" id="leccion-titulo">…</p>
+          <p class="leccion__descripcion" id="leccion-descripcion"></p>
+          <button type="button" class="boton boton--grande" id="leccion-boton" disabled>Próximamente</button>
+          <p class="leccion__nota">Las lecciones interactivas llegan en la siguiente etapa.</p>
+        </section>
+
+        <section class="tarjeta" aria-labelledby="titulo-avance">
+          <h2 id="titulo-avance" class="titulo-seccion">Tu avance</h2>
+          <div class="avance">
+            <div class="avance__fila">
+              <span>Nivel <strong id="nivel">—</strong></span>
+              <span class="suave" id="nivel-texto"></span>
+            </div>
+            <div class="barra" id="barra-nivel" role="progressbar" aria-label="Progreso hacia el siguiente nivel"
+                 aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+              <div class="barra__relleno"></div>
+            </div>
+          </div>
+          <div class="avance">
+            <div class="avance__fila">
+              <span>Recorrido</span>
+              <span class="suave" id="curso-texto"></span>
+            </div>
+            <div class="barra" id="barra-curso" role="progressbar" aria-label="Lecciones completadas"
+                 aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+              <div class="barra__relleno"></div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <div class="columna">
+        <section class="tarjeta" aria-labelledby="titulo-semana">
+          <h2 id="titulo-semana" class="titulo-seccion">Tu semana</h2>
+          <ul class="semana" id="semana"></ul>
+          <p class="semana-resumen" id="semana-resumen"></p>
+        </section>
+
+        <section class="tarjeta" aria-labelledby="titulo-logros">
+          <h2 id="titulo-logros" class="titulo-seccion">Logros recientes</h2>
+          <ul class="logros-lista" id="logros"></ul>
+          <p class="vacio" id="logros-vacio" hidden>Todavía no tienes logros. Completa tu primera lección para ganar el primero.</p>
+        </section>
+      </div>
+    </div>
   </main>
 </body>
 </html>
