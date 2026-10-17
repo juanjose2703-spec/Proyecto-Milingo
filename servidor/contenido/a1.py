@@ -135,3 +135,10 @@ CURSO_A1 = {
         },
     ],
 }
+
+
+
+# Unidades 2 a 8 (definidas en a1_unidades.py).
+from servidor.contenido.a1_unidades import UNIDADES_2_A_8  # noqa: E402
+
+CURSO_A1["unidades"].extend(UNIDADES_2_A_8)

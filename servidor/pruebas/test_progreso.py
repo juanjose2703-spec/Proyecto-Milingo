@@ -115,8 +115,9 @@ def test_carga_contenido_es_idempotente(app):
     sincronizar_contenido()
     bd.session.commit()
     assert _contar() == primero
-    assert primero["lecciones"] == 2
-    assert primero["preguntas"] == 12
+    assert primero["unidades"] == 8
+    assert primero["lecciones"] == 16
+    assert primero["preguntas"] == 96
     assert primero["logros"] == 5
 
 
@@ -143,7 +144,7 @@ def test_desbloqueo_al_completar(acceder, cliente, contenido):
 def test_progress_recomienda_la_primera(acceder, cliente, contenido):
     acceder("alumna")
     datos = cliente.get("/api/v1/progress").get_json()["datos"]
-    assert datos["total_lecciones"] == 2
+    assert datos["total_lecciones"] == 16
     assert datos["lecciones_completadas"] == 0
     assert datos["porcentaje"] == 0
     assert datos["siguiente"]["estado"] == "disponible"

@@ -25,10 +25,13 @@ def test_unidades_con_lecciones_y_estados(acceder, cliente, contenido):
     r = cliente.get(f"/api/v1/courses/{cid}/units")
     assert r.status_code == 200
     unidades = r.get_json()["datos"]["unidades"]
-    assert len(unidades) == 1
+    assert len(unidades) == 8
     assert unidades[0]["titulo"] == "Hello!"
+    assert unidades[7]["titulo"] == "Simple Conversations"
     assert [l["orden"] for l in unidades[0]["lecciones"]] == [1, 2]
-    assert [l["estado"] for l in unidades[0]["lecciones"]] == ["disponible", "bloqueada"]
+    estados = [[l["estado"] for l in u["lecciones"]] for u in unidades]
+    assert estados[0] == ["disponible", "bloqueada"]
+    assert all(e == ["bloqueada", "bloqueada"] for e in estados[1:])
     assert "es_correcta" not in r.get_data(as_text=True)
 
 
@@ -40,7 +43,8 @@ def test_unidad_no_publicada_se_oculta(acceder, cliente, contenido):
     bd.session.commit()
     acceder("alumna")
     unidades = cliente.get(f"/api/v1/courses/{cid}/units").get_json()["datos"]["unidades"]
-    assert unidades == []
+    assert len(unidades) == 7
+    assert all(u["id"] != unidad_id for u in unidades)
     assert cliente.get(f"/api/v1/units/{unidad_id}/lessons").status_code == 404
 
 
