@@ -4,18 +4,21 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#FFF6E8">
-  <title>Panel · Milingo</title>
+  <title>Administración · Milingo</title>
   <link rel="icon" type="image/svg+xml" href="/recursos/mascota-feliz.svg">
   <link rel="stylesheet" href="/estilos/base.css">
   <link rel="stylesheet" href="/estilos/componentes.css">
   <link rel="stylesheet" href="/estilos/paginas.css">
+  <link rel="stylesheet" href="/estilos/admin.css">
   <script src="/scripts/api.js" defer></script>
   <script src="/scripts/admin.js" defer></script>
 </head>
 <body>
+  <a class="saltar" href="#contenido">Saltar al contenido</a>
+
   <header class="cabecera">
     <div class="contenedor cabecera__interior">
-      <a class="logo" href="/panel" aria-label="Milingo, panel">
+      <a class="logo" href="/admin" aria-label="Milingo, administración">
         <img class="logo__icono" src="/recursos/mascota-feliz.svg" alt="" width="40" height="40">
         <span>Milingo</span>
       </a>
@@ -23,15 +26,107 @@
     </div>
   </header>
 
-  <main class="contenedor panel-provisional" id="contenido">
-    <section class="tarjeta panel-provisional__tarjeta entrada-suave">
-      <img class="panel-provisional__mascota" src="/recursos/mascota-feliz.svg" alt="" width="120" height="120">
-      <h1 id="saludo">Cargando…</h1>
-      <p id="detalle"></p>
-      <div class="aviso aviso--info">
-        <span>Pantalla provisional: el panel real, con XP, racha y corazones, llega en la siguiente etapa.</span>
+  <main class="contenedor admin" id="contenido">
+    <section class="entrada-suave">
+      <h1>Administración</h1>
+      <p class="admin__sub" id="admin-nombre">Cargando…</p>
+    </section>
+
+    <div class="pestanas" role="group" aria-label="Secciones">
+      <button type="button" id="pestana-contenido" aria-pressed="true">Contenido</button>
+      <button type="button" id="pestana-estudiantes" aria-pressed="false">Estudiantes</button>
+    </div>
+
+    <p id="mensaje" class="aviso aviso--error" role="alert" hidden></p>
+
+    <!-- ===== Contenido ===== -->
+    <section id="vista-contenido" aria-label="Contenido educativo">
+      <div class="herramientas">
+        <h2>Cursos, unidades y lecciones</h2>
+        <button type="button" class="boton boton--chico" id="nuevo-curso">+ Nuevo curso</button>
       </div>
+      <p class="ayuda">Lo nuevo nace como borrador. Una lección solo se publica si tiene al menos una pregunta publicada.</p>
+      <div class="arbol" id="arbol"></div>
+    </section>
+
+    <!-- ===== Estudiantes ===== -->
+    <section id="vista-estudiantes" aria-label="Estudiantes" hidden>
+      <p id="alumno-error" class="aviso aviso--error" role="alert" hidden></p>
+      <div id="lista-alumnos-caja">
+        <div class="herramientas"><h2>Estudiantes</h2></div>
+        <div class="alumnos" id="lista-alumnos"></div>
+      </div>
+      <div class="detalle-al" id="detalle-alumno" hidden></div>
     </section>
   </main>
+
+  <!-- Formulario genérico: curso, unidad y lección -->
+  <dialog class="dlg" id="dialogo-form" aria-labelledby="form-titulo">
+    <form class="dlg__cuerpo" id="form-generico">
+      <h2 id="form-titulo"></h2>
+      <div id="form-campos"></div>
+      <p class="aviso aviso--error" id="form-error" role="alert" hidden></p>
+      <div class="dlg__acciones">
+        <button type="button" class="boton boton--secundario boton--chico" id="form-cancelar">Cancelar</button>
+        <button type="submit" class="boton boton--chico" id="form-guardar">Guardar</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Lista de preguntas de una lección -->
+  <dialog class="dlg" id="dialogo-preguntas" aria-labelledby="preguntas-titulo">
+    <div class="dlg__cuerpo">
+      <h2 id="preguntas-titulo">Preguntas</h2>
+      <p class="aviso aviso--error" id="preguntas-error" role="alert" hidden></p>
+      <ul class="preguntas" id="preguntas-lista"></ul>
+      <div class="dlg__acciones">
+        <button type="button" class="boton boton--chico" id="pregunta-nueva">+ Nueva pregunta</button>
+        <button type="button" class="boton boton--secundario boton--chico" id="preguntas-cerrar">Cerrar</button>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Editor de pregunta -->
+  <dialog class="dlg" id="dialogo-pregunta" aria-labelledby="p-titulo">
+    <form class="dlg__cuerpo" id="form-pregunta">
+      <h2 id="p-titulo">Pregunta</h2>
+      <div class="campo">
+        <label for="p-tipo">Tipo de ejercicio</label>
+        <select class="entrada" id="p-tipo"></select>
+      </div>
+      <div class="campo">
+        <label for="p-instrucciones">Instrucciones</label>
+        <input class="entrada" id="p-instrucciones" type="text" maxlength="255">
+      </div>
+      <div class="campo">
+        <label for="p-texto">Texto de la pregunta</label>
+        <input class="entrada" id="p-texto" type="text" maxlength="500" required>
+        <p class="ayuda" id="p-ayuda-texto"></p>
+      </div>
+      <div id="p-opciones"></div>
+      <div class="campo">
+        <label for="p-explicacion">Explicación (se muestra después de responder)</label>
+        <textarea class="entrada" id="p-explicacion" maxlength="2000"></textarea>
+      </div>
+      <label class="casilla"><input type="checkbox" id="p-publicada"> Publicada</label>
+      <p class="aviso aviso--error" id="p-error" role="alert" hidden></p>
+      <div class="dlg__acciones">
+        <button type="button" class="boton boton--secundario boton--chico" id="p-cancelar">Cancelar</button>
+        <button type="submit" class="boton boton--chico" id="p-guardar">Guardar pregunta</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Confirmación -->
+  <dialog class="dlg" id="dialogo-conf" aria-labelledby="conf-titulo">
+    <div class="dlg__cuerpo">
+      <h2 id="conf-titulo"></h2>
+      <p id="conf-texto"></p>
+      <div class="dlg__acciones">
+        <button type="button" class="boton boton--secundario boton--chico" id="conf-no">Cancelar</button>
+        <button type="button" class="boton boton--chico boton--peligro" id="conf-ok">Confirmar</button>
+      </div>
+    </div>
+  </dialog>
 </body>
 </html>

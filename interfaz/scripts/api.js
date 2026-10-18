@@ -73,6 +73,8 @@ const Api = (() => {
     ErrorApi,
     get: (ruta) => enviar('GET', ruta),
     post: (ruta, cuerpo) => enviar('POST', ruta, cuerpo === undefined ? {} : cuerpo),
+    patch: (ruta, cuerpo) => enviar('PATCH', ruta, cuerpo === undefined ? {} : cuerpo),
+    borrar: (ruta) => enviar('DELETE', ruta),
     login: (usuario, contrasena) => enviar('POST', '/auth/login', { usuario, contrasena }),
     logout: async () => {
       await enviar('POST', '/auth/logout', {});
