@@ -57,3 +57,8 @@ def recorrido():
 @interfaz_bp.get("/leccion/<int:leccion_id>")
 def leccion(leccion_id):
     return _pagina("leccion.html")
+
+
+@interfaz_bp.get("/logros")
+def logros():
+    return _pagina("logros.html")

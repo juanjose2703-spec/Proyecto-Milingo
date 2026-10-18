@@ -4,7 +4,7 @@ from functools import wraps
 
 from argon2 import PasswordHasher
 from argon2.exceptions import VerificationError, InvalidHashError
-from flask import g, request, session
+from flask import request, session
 
 from servidor.errores import ErrorAPI
 from servidor.extensiones import bd
@@ -51,15 +51,23 @@ def verificar_csrf():
             raise ErrorAPI(403, "csrf_invalido", "Token de seguridad inválido. Recarga la página.")
 
 
+_SIN_CACHE = object()
+
+
 def usuario_actual():
-    """Usuario de la sesión, leído siempre de la base (nunca del navegador)."""
-    if "usuario_actual" not in g:
+    """Usuario de la sesión, leído de la base (nunca del navegador).
+
+    Se guarda en el objeto request, que es nuevo en cada petición, para no
+    leer la base varias veces dentro de la misma.
+    """
+    usuario = getattr(request, "_usuario_actual", _SIN_CACHE)
+    if usuario is _SIN_CACHE:
         uid = session.get("usuario_id")
         usuario = bd.session.get(Usuario, uid) if uid else None
         if usuario is not None and not usuario.activo:
             usuario = None
-        g.usuario_actual = usuario
-    return g.usuario_actual
+        request._usuario_actual = usuario
+    return usuario
 
 
 def login_requerido(funcion):

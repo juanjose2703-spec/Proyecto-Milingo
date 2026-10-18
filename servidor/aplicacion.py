@@ -50,6 +50,8 @@ def crear_app(configuracion=Configuracion):
     from servidor.rutas.progreso import progreso_bp
     from servidor.rutas.contenido import contenido_bp
     from servidor.rutas.intentos import intentos_bp
+    from servidor.rutas.admin_contenido import admin_contenido_bp
+    from servidor.rutas.admin_estudiantes import admin_estudiantes_bp
     app.register_blueprint(salud_bp)
     app.register_blueprint(autenticacion_bp)
     app.register_blueprint(admin_bp)
@@ -57,6 +59,8 @@ def crear_app(configuracion=Configuracion):
     app.register_blueprint(contenido_bp)
     app.register_blueprint(interfaz_bp)
     app.register_blueprint(intentos_bp)
+    app.register_blueprint(admin_contenido_bp)
+    app.register_blueprint(admin_estudiantes_bp)
 
     from servidor.comandos.usuarios import crear_usuario
     from servidor.comandos.contenido import cargar_contenido

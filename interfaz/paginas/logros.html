@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#FFF6E8">
+  <title>Mis logros · Milingo</title>
+  <link rel="icon" type="image/svg+xml" href="/recursos/mascota-feliz.svg">
+  <link rel="stylesheet" href="/estilos/base.css">
+  <link rel="stylesheet" href="/estilos/componentes.css">
+  <link rel="stylesheet" href="/estilos/paginas.css">
+  <link rel="stylesheet" href="/estilos/logros.css">
+  <script src="/scripts/api.js" defer></script>
+  <script src="/scripts/logros.js" defer></script>
+</head>
+<body>
+  <a class="saltar" href="#contenido">Saltar al contenido</a>
+
+  <header class="cabecera">
+    <div class="contenedor cabecera__interior">
+      <a class="logo" href="/panel" aria-label="Milingo, mi panel">
+        <img class="logo__icono" src="/recursos/mascota-feliz.svg" alt="" width="40" height="40">
+        <span>Milingo</span>
+      </a>
+      <div class="cabecera__acciones">
+        <nav class="nav" aria-label="Principal">
+          <a href="/panel">Mi panel</a>
+          <a href="/recorrido">Mi camino</a>
+          <a href="/logros" aria-current="page">Logros</a>
+        </nav>
+        <button type="button" class="boton boton--secundario boton--chico" id="boton-salir">Salir</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="contenedor logros" id="contenido">
+    <section class="logros__intro entrada-suave">
+      <h1>Mis logros</h1>
+      <p id="logros-resumen">Cargando tus logros…</p>
+    </section>
+
+    <div id="aviso-error" class="aviso aviso--error aviso--accion" role="alert" hidden>
+      <span id="aviso-error-texto"></span>
+      <button type="button" class="boton boton--secundario boton--chico" id="boton-reintentar">Reintentar</button>
+    </div>
+
+    <ul class="insignias" id="insignias"></ul>
+  </main>
+</body>
+</html>
