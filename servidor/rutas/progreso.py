@@ -50,6 +50,7 @@ def resumen_progreso():
         "porcentaje": round(100 * completadas / total) if total else 0,
         "siguiente": None if siguiente is None else {
             "id": siguiente.id,
+            "curso_id": siguiente.unidad.curso_id,
             "titulo": siguiente.titulo,
             "descripcion": siguiente.descripcion,
             "unidad_titulo": siguiente.unidad.titulo,

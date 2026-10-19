@@ -167,3 +167,23 @@
 .detalle__meta:empty { display: none; }
 .detalle__nota { margin: 0.2rem 0 0.6rem; font-size: 0.9rem; color: var(--texto-suave); }
 .detalle__acciones { display: grid; gap: 0.9rem; }
+
+
+/* ---------- Selector de curso ---------- */
+.selector-curso { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem; }
+.selector-curso button {
+  min-height: 2.75rem;
+  padding: 0.5rem 1.1rem;
+  border: 2px solid var(--gris-oscuro);
+  border-radius: 999px;
+  background: var(--blanco);
+  color: var(--texto);
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+}
+.selector-curso button[aria-pressed="true"] {
+  background: var(--verde-suave);
+  border-color: var(--verde-oscuro);
+  color: var(--verde-texto);
+}

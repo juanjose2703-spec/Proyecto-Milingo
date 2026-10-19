@@ -71,7 +71,7 @@ def _cuerpo(pregunta, bien):
     Busca la respuesta correcta en la base (el navegador real no puede hacerlo).
     """
     p = bd.session.get(Pregunta, pregunta["id"])
-    if p.tipo in ("seleccion", "completar_opcion"):
+    if p.tipo in ("seleccion", "completar_opcion", "escuchar_elegir"):
         texto = next(o.texto for o in p.opciones if o.es_correcta == bien)
         indice = next(o["id"] for o in pregunta["opciones"] if o["texto"] == texto)
         return {"opcion": indice}

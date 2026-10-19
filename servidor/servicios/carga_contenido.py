@@ -6,6 +6,7 @@ administración algo que también está en estos archivos, la próxima carga
 volverá a poner el texto del archivo.
 """
 from servidor.contenido.a1 import CURSO_A1
+from servidor.contenido.a2 import CURSO_A2
 from servidor.contenido.logros import LOGROS
 from servidor.extensiones import bd
 from servidor.modelos import Curso, Unidad, Leccion, Pregunta, OpcionRespuesta, Logro
@@ -48,23 +49,15 @@ def _sincronizar_opciones(pregunta, opciones):
     bd.session.flush()
 
 
-def sincronizar_contenido():
-    """No hace commit: quien llama decide cuándo confirmar."""
-    for datos in LOGROS:
-        _upsert(Logro, {"codigo": datos["codigo"]}, {
-            "nombre": datos["nombre"],
-            "descripcion": datos["descripcion"],
-            "icono": datos["icono"],
-        })
-
-    curso = _upsert(Curso, {"titulo": CURSO_A1["titulo"]}, {
-        "descripcion": CURSO_A1["descripcion"],
-        "nivel": CURSO_A1["nivel"],
-        "orden": CURSO_A1["orden"],
+def _sincronizar_curso(datos_curso):
+    curso = _upsert(Curso, {"titulo": datos_curso["titulo"]}, {
+        "descripcion": datos_curso["descripcion"],
+        "nivel": datos_curso["nivel"],
+        "orden": datos_curso["orden"],
         "publicado": True,
     })
 
-    for n_unidad, datos_unidad in enumerate(CURSO_A1["unidades"], 1):
+    for n_unidad, datos_unidad in enumerate(datos_curso["unidades"], 1):
         unidad = _upsert(Unidad, {"curso_id": curso.id, "orden": n_unidad}, {
             "titulo": datos_unidad["titulo"],
             "descripcion": datos_unidad["descripcion"],
@@ -86,3 +79,23 @@ def sincronizar_contenido():
                     "publicada": True,
                 })
                 _sincronizar_opciones(pregunta, datos_pregunta["opciones"])
+
+
+def sincronizar_contenido(cursos=None):
+    """Carga los logros y los cursos indicados (por defecto, solo A1).
+
+    No hace commit: quien llama decide cuándo confirmar.
+    """
+    for datos in LOGROS:
+        _upsert(Logro, {"codigo": datos["codigo"]}, {
+            "nombre": datos["nombre"],
+            "descripcion": datos["descripcion"],
+            "icono": datos["icono"],
+        })
+    for datos_curso in ([CURSO_A1] if cursos is None else cursos):
+        _sincronizar_curso(datos_curso)
+
+
+def sincronizar_todo():
+    """Carga A1 y A2. Es lo que usa el comando cargar-contenido."""
+    sincronizar_contenido([CURSO_A1, CURSO_A2])

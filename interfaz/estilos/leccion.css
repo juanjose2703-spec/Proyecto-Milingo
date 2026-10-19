@@ -233,3 +233,16 @@ fieldset:disabled .opcion input { cursor: default; }
 .dialogo h2 { margin: 0; }
 .dialogo p { margin: 0; color: var(--texto-suave); }
 .dialogo__acciones { display: grid; gap: 0.9rem; margin-top: 0.5rem; }
+
+
+/* ---------- Ejercicios de audio ---------- */
+.audio { display: flex; flex-wrap: wrap; gap: 0.75rem; margin: 0 0 1.5rem; }
+.audio__boton { flex: 1 1 180px; }
+.audio__aviso {
+  margin: 0;
+  padding: 0.9rem 1rem;
+  border-radius: var(--radio-m);
+  background: var(--rosa-suave);
+  color: var(--rosa-texto);
+  font-weight: 700;
+}

@@ -16,6 +16,9 @@
 
   const detalle = $('detalle');
   let leccionAbierta = null;
+  let cursos = [];
+  let cursoActivoId = null;
+  let siguienteId = null;
 
   function crear(etiqueta, clase, texto) {
     const e = document.createElement(etiqueta);
@@ -42,7 +45,7 @@
     chip.textContent = ETIQUETAS[estado] || estado;
     chip.className = 'detalle__estado detalle__estado--' + estado;
 
-        const accion = $('detalle-accion');
+    const accion = $('detalle-accion');
     if (estado === 'bloqueada') {
       accion.hidden = true;
       $('detalle-nota').textContent = 'Completa la lección anterior para abrir esta.';
@@ -76,7 +79,7 @@
   detalle.addEventListener('close', () => { leccionAbierta = null; });
 
   /* ---------- Mapa ---------- */
-  function pintarUnidad(unidad, indice, siguienteId) {
+  function pintarUnidad(unidad, indice) {
     const tituloId = 'unidad-' + unidad.id;
     const seccion = crear('section', 'unidad' + (indice % 2 === 1 ? ' unidad--rosa' : ''));
     seccion.setAttribute('aria-labelledby', tituloId);
@@ -118,17 +121,20 @@
     return seccion;
   }
 
-  function pintarMapa(curso, unidades, progreso) {
+  function pintarMapa(curso, unidades) {
     $('curso-titulo').textContent = curso.titulo;
-    $('curso-resumen').textContent = progreso.total_lecciones === 0
-      ? 'Aún no hay lecciones publicadas.'
-      : progreso.lecciones_completadas + ' de ' + plural(progreso.total_lecciones, 'lección', 'lecciones') +
-        ' completadas (' + progreso.porcentaje + ' %).';
 
-    const siguienteId = progreso.siguiente ? progreso.siguiente.id : null;
+    const lecciones = unidades.reduce((n, u) => n + u.lecciones.length, 0);
+    const hechas = unidades.reduce(
+      (n, u) => n + u.lecciones.filter((l) => l.estado === 'completada').length, 0);
+    $('curso-resumen').textContent = lecciones === 0
+      ? 'Este curso aún no tiene lecciones publicadas.'
+      : hechas + ' de ' + plural(lecciones, 'lección', 'lecciones') + ' completadas (' +
+        Math.round((100 * hechas) / lecciones) + ' %).';
+
     const contenedor = $('unidades');
     contenedor.replaceChildren();
-    unidades.forEach((u, i) => contenedor.appendChild(pintarUnidad(u, i, siguienteId)));
+    unidades.forEach((u, i) => contenedor.appendChild(pintarUnidad(u, i)));
 
     const siguiente = contenedor.querySelector('.nodo[data-siguiente="si"]');
     if (siguiente) {
@@ -137,10 +143,48 @@
     }
   }
 
+  /* ---------- Selector de curso ---------- */
+  function pintarSelector() {
+    const caja = $('selector-curso');
+    caja.replaceChildren();
+    caja.hidden = cursos.length < 2;
+    cursos.forEach((c) => {
+      const b = crear('button', '', c.titulo);
+      b.type = 'button';
+      b.setAttribute('aria-pressed', String(c.id === cursoActivoId));
+      b.addEventListener('click', () => {
+        if (c.id === cursoActivoId) return;
+        cursoActivoId = c.id;
+        pintarSelector();
+        cargarCurso();
+      });
+      caja.appendChild(b);
+    });
+  }
+
   function mostrarError(mensaje) {
     $('aviso-error-texto').textContent = mensaje;
     $('aviso-error').hidden = false;
     $('curso-resumen').textContent = '';
+  }
+
+  function manejarError(error, porDefecto) {
+    if (error.estado === 401) {
+      window.location.replace('/acceso');
+      return;
+    }
+    mostrarError(error.mensaje || porDefecto);
+  }
+
+  async function cargarCurso() {
+    $('aviso-error').hidden = true;
+    try {
+      const curso = cursos.find((c) => c.id === cursoActivoId);
+      const datos = await Api.get('/courses/' + curso.id + '/units');
+      pintarMapa(curso, datos.unidades);
+    } catch (error) {
+      manejarError(error, 'No pudimos cargar tu recorrido.');
+    }
   }
 
   async function cargar() {
@@ -151,23 +195,24 @@
         window.location.replace(Api.rutaInicio(yo.usuario.rol));
         return;
       }
-      const cursos = await Api.get('/courses');
-      if (cursos.cursos.length === 0) {
+      cursos = (await Api.get('/courses')).cursos;
+      if (cursos.length === 0) {
         $('curso-resumen').textContent = 'Aún no hay cursos publicados.';
         return;
       }
-      const curso = cursos.cursos[0];
-      const [unidades, progreso] = await Promise.all([
-        Api.get('/courses/' + curso.id + '/units'),
-        Api.get('/progress'),
-      ]);
-      pintarMapa(curso, unidades.unidades, progreso);
+      const progreso = await Api.get('/progress');
+      siguienteId = progreso.siguiente ? progreso.siguiente.id : null;
+
+      // Se abre el curso donde está la siguiente lección (o el último, si ya terminó todo).
+      const destino = progreso.siguiente
+        ? cursos.find((c) => c.id === progreso.siguiente.curso_id)
+        : cursos[cursos.length - 1];
+      cursoActivoId = (destino || cursos[0]).id;
+
+      pintarSelector();
+      await cargarCurso();
     } catch (error) {
-      if (error.estado === 401) {
-        window.location.replace('/acceso');
-        return;
-      }
-      mostrarError(error.mensaje || 'No pudimos cargar tu recorrido.');
+      manejarError(error, 'No pudimos cargar tu recorrido.');
     }
   }
 

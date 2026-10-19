@@ -212,6 +212,81 @@
     };
   }
 
+  /* ---------- Voz del navegador (Web Speech API) ---------- */
+  const Voz = (() => {
+    const disponible = 'speechSynthesis' in window && 'SpeechSynthesisUtterance' in window;
+    let voces = [];
+
+    function cargarVoces() { voces = window.speechSynthesis.getVoices(); }
+    if (disponible) {
+      cargarVoces();
+      window.speechSynthesis.addEventListener('voiceschanged', cargarVoces);
+    }
+
+    function elegir(idioma) {
+      const base = idioma.slice(0, 2).toLowerCase();
+      return voces.find((v) => v.lang === idioma)
+        || voces.find((v) => v.lang.toLowerCase().startsWith(base))
+        || null;
+    }
+
+    function parar() {
+      if (disponible) window.speechSynthesis.cancel();
+    }
+
+    function hablar(texto, idioma, velocidad) {
+      if (!disponible) return;
+      parar();
+      const frase = new SpeechSynthesisUtterance(texto);
+      frase.lang = idioma;
+      frase.rate = velocidad;
+      const voz = elegir(idioma);
+      if (voz) frase.voice = voz;
+      window.speechSynthesis.speak(frase);
+    }
+
+    return { disponible, hablar, parar };
+  })();
+
+  function renderAudio(p, cont) {
+    const caja = crear('div', 'audio');
+    if (!Voz.disponible) {
+      caja.appendChild(crear('p', 'audio__aviso',
+        'Tu navegador no puede reproducir voz. La frase es: ' + p.audio.texto));
+      cont.appendChild(caja);
+      return;
+    }
+    const normal = crear('button', 'boton boton--grande audio__boton', 'Escuchar');
+    normal.type = 'button';
+    normal.setAttribute('aria-label', 'Escuchar la frase');
+    normal.addEventListener('click', () => Voz.hablar(p.audio.texto, p.audio.idioma, 0.9));
+
+    const lento = crear('button', 'boton boton--secundario audio__boton', 'Más lento');
+    lento.type = 'button';
+    lento.setAttribute('aria-label', 'Escuchar la frase más despacio');
+    lento.addEventListener('click', () => Voz.hablar(p.audio.texto, p.audio.idioma, 0.55));
+
+    caja.append(normal, lento);
+    cont.appendChild(caja);
+
+    // Reproducción automática al aparecer (si el navegador la permite).
+    window.setTimeout(() => {
+      if (estado.pregunta === p) Voz.hablar(p.audio.texto, p.audio.idioma, 0.9);
+    }, 350);
+  }
+
+  function renderEscucharEscribir(p, cont) {
+    renderAudio(p, cont);
+    const r = renderTexto(p, cont);
+    delete r.enfocar; // el foco se queda en el título: no abrir el teclado antes de escuchar
+    return r;
+  }
+
+  function renderEscucharElegir(p, cont) {
+    renderAudio(p, cont);
+    return renderOpciones(p, cont);
+  }
+
   const RENDER = {
     seleccion: renderOpciones,
     completar_opcion: renderOpciones,
@@ -219,6 +294,8 @@
     traducir_en_es: renderTexto,
     completar_texto: renderTexto,
     ordenar_palabras: renderOrden,
+    escuchar_escribir: renderEscucharEscribir,
+    escuchar_elegir: renderEscucharElegir,
   };
 
   /* ---------- Flujo ---------- */
@@ -231,9 +308,11 @@
     estado.pregunta = p;
     estado.fase = 'responder';
     limpiarRetro();
+    Voz.parar();
 
     $('instrucciones').textContent = p.instrucciones || 'Responde';
     $('enunciado').textContent = p.texto;
+    $('enunciado').hidden = !p.texto; // en los ejercicios de audio no hay enunciado escrito
     const cont = $('ejercicio');
     cont.replaceChildren();
     ejercicio = render(p, cont);
@@ -393,6 +472,7 @@
     estado.listo = true;
     $('instrucciones').textContent = '¡Terminaste las preguntas!';
     $('enunciado').textContent = 'Solo falta ver tu resultado.';
+    $('enunciado').hidden = false;
     $('ejercicio').replaceChildren();
     $('boton-principal-texto').textContent = 'Ver resultados';
     limpiarRetro();
@@ -438,6 +518,7 @@
   $('dialogo-seguir').addEventListener('click', () => dialogo.close());
   $('dialogo-confirmar').addEventListener('click', async () => {
     $('dialogo-confirmar').disabled = true;
+    Voz.parar();
     try {
       if (estado.intentoId) await Api.post('/attempts/' + estado.intentoId + '/abandon');
     } catch (_) {

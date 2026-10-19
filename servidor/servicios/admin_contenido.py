@@ -20,10 +20,11 @@ from servidor.servicios import ejercicios as ej
 from servidor.servicios.normalizacion import normalizar
 from servidor.servicios.reglas import XP_BASE_LECCION
 
-TIPOS_OPCION = (ej.SELECCION, ej.COMPLETAR_OPCION)
+TIPOS_OPCION = (ej.SELECCION, ej.COMPLETAR_OPCION, ej.ESCUCHAR_ELEGIR)
 TIPOS_HUECO = (ej.COMPLETAR_OPCION, ej.COMPLETAR_TEXTO)
 TIPOS = TIPOS_OPCION + (
-    ej.TRADUCIR_ES_EN, ej.TRADUCIR_EN_ES, ej.COMPLETAR_TEXTO, ej.ORDENAR_PALABRAS,
+    ej.TRADUCIR_ES_EN, ej.TRADUCIR_EN_ES, ej.COMPLETAR_TEXTO,
+    ej.ORDENAR_PALABRAS, ej.ESCUCHAR_ESCRIBIR,
 )
 MAX_OPCIONES = 12
 

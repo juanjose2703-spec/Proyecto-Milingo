@@ -3,15 +3,15 @@ from flask.cli import with_appcontext
 
 from servidor.extensiones import bd
 from servidor.modelos import Curso, Unidad, Leccion, Pregunta, OpcionRespuesta, Logro
-from servidor.servicios.carga_contenido import sincronizar_contenido
+from servidor.servicios.carga_contenido import sincronizar_todo
 
 
 @click.command("cargar-contenido")
 @with_appcontext
 def cargar_contenido():
-    """Carga o actualiza el contenido A1 y los logros. Se puede repetir sin duplicar."""
+    """Carga o actualiza el contenido A1 y A2 y los logros. Se puede repetir sin duplicar."""
     try:
-        sincronizar_contenido()
+        sincronizar_todo()
         bd.session.commit()
     except Exception:
         bd.session.rollback()

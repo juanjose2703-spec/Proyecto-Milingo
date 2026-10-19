@@ -23,15 +23,18 @@
 
   const COL = { curso: 'courses', unidad: 'units', leccion: 'lessons', pregunta: 'questions' };
   const CAMPO_PUBLICADO = { curso: 'publicado', unidad: 'publicado', leccion: 'publicada', pregunta: 'publicada' };
-  const TIPOS = {
+    const TIPOS = {
     seleccion: 'Elegir la traducción',
     completar_opcion: 'Completar con opciones',
     traducir_es_en: 'Traducir al inglés (escribir)',
     traducir_en_es: 'Traducir al español (escribir)',
     completar_texto: 'Completar escribiendo',
     ordenar_palabras: 'Ordenar palabras',
+    escuchar_escribir: 'Escuchar y escribir (audio)',
+    escuchar_elegir: 'Escuchar y elegir (audio)',
   };
-  const TIPOS_ELEGIR = ['seleccion', 'completar_opcion'];
+  const TIPOS_ELEGIR = ['seleccion', 'completar_opcion', 'escuchar_elegir'];
+  const TIPOS_AUDIO = ['escuchar_escribir', 'escuchar_elegir'];
   const TIPOS_HUECO = ['completar_opcion', 'completar_texto'];
   const ESTADOS = {
     completada: 'Completada', en_progreso: 'En progreso',
@@ -360,9 +363,11 @@
     const cont = $('p-opciones');
     cont.replaceChildren();
     const tipo = ep.tipo;
-    $('p-ayuda-texto').textContent = TIPOS_HUECO.includes(tipo)
-      ? 'Debe incluir el hueco ___ (tres guiones bajos).' : '';
-
+        $('p-ayuda-texto').textContent = TIPOS_HUECO.includes(tipo)
+      ? 'Debe incluir el hueco ___ (tres guiones bajos).'
+      : TIPOS_AUDIO.includes(tipo)
+        ? 'Escribe la frase EN INGLÉS que se va a escuchar. El estudiante no la verá escrita.'
+        : '';
     if (tipo === 'ordenar_palabras') {
       const caja = crear('div', 'campo');
       const etiqueta = crear('label', '', 'Frase en el orden correcto');

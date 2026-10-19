@@ -20,6 +20,10 @@ TRADUCIR_ES_EN = "traducir_es_en"
 TRADUCIR_EN_ES = "traducir_en_es"
 COMPLETAR_TEXTO = "completar_texto"
 ORDENAR_PALABRAS = "ordenar_palabras"
+ESCUCHAR_ESCRIBIR = "escuchar_escribir"
+ESCUCHAR_ELEGIR = "escuchar_elegir"
+TIPOS_AUDIO = (ESCUCHAR_ESCRIBIR, ESCUCHAR_ELEGIR)
+IDIOMA_AUDIO = "en-US"
 
 LARGO_MAXIMO_TEXTO = 300
 
@@ -57,14 +61,21 @@ def _barajar(intento_id, pregunta):
 
 
 def presentar(intento_id, pregunta):
-    """Datos de la pregunta para el navegador. Nunca incluye respuestas."""
+    """Datos de la pregunta para el navegador. Nunca incluye respuestas.
+
+    En los ejercicios de audio, `texto` va vacío y la frase a pronunciar viaja
+    en `audio` (el navegador necesita el texto para hablarlo).
+    """
     datos = {
         "id": pregunta.id,
         "tipo": pregunta.tipo,
         "instrucciones": pregunta.instrucciones,
         "texto": pregunta.texto,
     }
-    if pregunta.tipo in (SELECCION, COMPLETAR_OPCION):
+    if pregunta.tipo in TIPOS_AUDIO:
+        datos["texto"] = ""
+        datos["audio"] = {"texto": pregunta.texto, "idioma": IDIOMA_AUDIO}
+    if pregunta.tipo in (SELECCION, COMPLETAR_OPCION, ESCUCHAR_ELEGIR):
         datos["opciones"] = [
             {"id": i, "texto": o.texto} for i, o in enumerate(_barajar(intento_id, pregunta))
         ]
@@ -118,12 +129,13 @@ def _evaluar_orden(pregunta, respuesta, intento_id):
 EVALUADORES = {
     SELECCION: _evaluar_opcion,
     COMPLETAR_OPCION: _evaluar_opcion,
+    ESCUCHAR_ELEGIR: _evaluar_opcion,
     TRADUCIR_ES_EN: _evaluar_texto,
     TRADUCIR_EN_ES: _evaluar_texto,
     COMPLETAR_TEXTO: _evaluar_texto,
+    ESCUCHAR_ESCRIBIR: _evaluar_texto,
     ORDENAR_PALABRAS: _evaluar_orden,
 }
-
 
 def evaluar(pregunta, respuesta, intento_id):
     """Devuelve (es_correcta, texto_guardado). Lanza ErrorAPI si el formato es inválido."""
