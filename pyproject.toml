@@ -1,0 +1,2 @@
+[tool.vercel]
+entrypoint = "servidor.ejecutar:app"
