@@ -5,11 +5,19 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
+def _formatear_db_url(nombre_variable: str) -> str | None:
+    """Lee la URL de entorno y convierte el prefijo 'postgres://' a 'postgresql://'."""
+    url = os.environ.get(nombre_variable)
+    if url and url.startswith("postgres://"):
+        return url.replace("postgres://", "postgresql://", 1)
+    return url
+
+
 class Configuracion:
     """Valores de configuración leídos del archivo .env."""
 
     SECRET_KEY = os.environ.get("SECRET_KEY")
-    SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL")
+    SQLALCHEMY_DATABASE_URI = _formatear_db_url("DATABASE_URL")
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     TIMEZONE = os.environ.get("TIMEZONE", "America/Bogota")
 
@@ -25,9 +33,9 @@ class Configuracion:
 
 
 class ConfiguracionPruebas(Configuracion):
-    """Usa la base milingo_pruebas y desactiva el límite de intentos."""
+    """Usa la base de datos de pruebas y desactiva el límite de intentos."""
 
     TESTING = True
     SECRET_KEY = "clave-solo-para-pruebas"
-    SQLALCHEMY_DATABASE_URI = os.environ.get("TEST_DATABASE_URL")
+    SQLALCHEMY_DATABASE_URI = _formatear_db_url("TEST_DATABASE_URL")
     RATELIMIT_ENABLED = False
