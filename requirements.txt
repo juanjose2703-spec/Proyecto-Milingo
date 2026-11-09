@@ -8,3 +8,4 @@ argon2-cffi>=23.1
 Flask-Limiter>=3.5,<4.0
 tzdata
 pytest>=8.0
+psycopg2-binary
